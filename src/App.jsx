@@ -1,15 +1,20 @@
-//import { useState } from 'react'
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import LoginForm from './LoginForm'
+import Dashboard from './Dashboard'
 import './App.css'
-import LoginForm from "./LoginForm.jsx"
+
 
 function App() {
-  //const [count, setCount] = useState(0)
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LoginForm />} />
 
-  return (
-      <div className="app-background">
-          <LoginForm/>
-      </div>
-  )
+                <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App

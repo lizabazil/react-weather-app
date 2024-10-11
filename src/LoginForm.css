@@ -1,3 +1,10 @@
+.invalid-data {
+    display: none;
+    border: 2px solid #d5b9b9;
+    background-color: #e8d1d1;
+    border-radius: 10px;
+}
+
 .login-form {
     display: flex;
     flex-direction: column;
