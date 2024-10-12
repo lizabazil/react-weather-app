@@ -1,6 +1,7 @@
 import './LoginForm.css'
 import { useState }  from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 //import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
 const userData = {
@@ -9,6 +10,7 @@ const userData = {
 }
 
 function LoginForm() {
+    const [, setCookie] = useCookies(['isLoggedIn'])
     const [isInvalidLogIn, setInvalidLogIn] = useState(false)
 
     const toggleInvalidLogIn = () => {
@@ -23,10 +25,12 @@ function LoginForm() {
         e.preventDefault()
         if (email === userData.email && password === userData.password) {
             navigate('/dashboard')
+            setCookie('isLoggedIn', true)
         }
         // not successful log in
         else {
             toggleInvalidLogIn()
+            setCookie('isLoggedIn', false)
         }
     }
     return (
@@ -34,7 +38,7 @@ function LoginForm() {
             <div className="app-background">
             <div className="login-container">
                 <form className="login-form" onSubmit={handleSubmit}>
-                    <h2>Log to Web App</h2>
+                    <h2>Log to Weather App</h2>
                     <div className="invalid-data" style={{display: isInvalidLogIn ? 'block' : 'none'}}>
                         <span>Invalid email or password</span>
                     </div>
