@@ -9,15 +9,24 @@ const userData = {
 }
 
 function LoginForm() {
+    const [isInvalidLogIn, setInvalidLogIn] = useState(false)
+
+    const toggleInvalidLogIn = () => {
+        setInvalidLogIn(!isInvalidLogIn)
+    }
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(false)
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (email === userData.email && password === userData.password) {
             navigate('/dashboard')
+        }
+        // not successful log in
+        else {
+            toggleInvalidLogIn()
         }
     }
     return (
@@ -26,8 +35,8 @@ function LoginForm() {
             <div className="login-container">
                 <form className="login-form" onSubmit={handleSubmit}>
                     <h2>Log to Web App</h2>
-                    <div className="invalid-data">
-                        <span>Invalid data</span>
+                    <div className="invalid-data" style={{display: isInvalidLogIn ? 'block' : 'none'}}>
+                        <span>Invalid email or password</span>
                     </div>
                     <label htmlFor="email">E-mail:</label>
                     <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
