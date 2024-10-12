@@ -1,11 +1,11 @@
-import {useNavigate} from "react-router-dom"
-import {useCookies} from "react-cookie"
-import {useState, useEffect} from "react"
-import WeatherBlock from "./WeatherBlock.jsx";
+import { useNavigate } from "react-router-dom"
+import { useCookies } from "react-cookie"
+import { useState, useEffect } from "react"
+import WeatherBlock from "./WeatherBlock.jsx"
 import './Dashboard.css'
 
 function Dashboard() {
-    const [cookies] = useCookies(['isLoggedIn'])
+    const [cookies, setCookies] = useCookies(['isLoggedIn'])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,13 +30,24 @@ function Dashboard() {
             });
     }, []);
 
+    // handle sign out, redirect user to login page
+    const handleSignOut = () => {
+        setCookies('isLoggedIn', false)
+        navigate('/')
+    }
 
+
+    // show the loader while the data is being fetched
     if(isLoading) {
         return <div className="loader"></div>
     }
 
     return (
         <>
+            <div className="top-section">
+                <button className="sign-out-button" onClick={handleSignOut}>Sign out</button>
+            </div>
+
             <div className="weather-container">
                 {weatherData && weatherData.time.slice(0, 5).map((day, index) => (
                     <WeatherBlock
