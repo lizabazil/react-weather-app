@@ -46,7 +46,9 @@ function Dashboard() {
     return (
         <>
             <div className="top-section">
+                <img src="/cloud.svg" alt="App"></img>
                 <button className="sign-out-button" onClick={handleLogOut}>Sign out</button>
+                <span>Kyiv</span>
             </div>
 
             <div className="weather-container">
