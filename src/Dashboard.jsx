@@ -30,9 +30,10 @@ function Dashboard() {
             });
     }, []);
 
-    // handle sign out, redirect user to login page
-    const handleSignOut = () => {
+    // handle log out, redirect user to login page
+    const handleLogOut = () => {
         setCookies('isLoggedIn', false)
+        //setCookies('user', null)
         navigate('/')
     }
 
@@ -45,7 +46,7 @@ function Dashboard() {
     return (
         <>
             <div className="top-section">
-                <button className="sign-out-button" onClick={handleSignOut}>Sign out</button>
+                <button className="sign-out-button" onClick={handleLogOut}>Sign out</button>
             </div>
 
             <div className="weather-container">

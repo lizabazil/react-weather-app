@@ -1,8 +1,7 @@
 import './LoginForm.css'
-import { useState }  from 'react'
+import { useState, useEffect }  from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-//import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
 const userData = {
     email: 'liza@gmail.com',
@@ -10,8 +9,11 @@ const userData = {
 }
 
 function LoginForm() {
-    const [, setCookie] = useCookies(['isLoggedIn'])
+    const [cookies, setCookie] = useCookies(['isLoggedIn'])
     const [isInvalidLogIn, setInvalidLogIn] = useState(false)
+
+    // info about state Remember me
+    const [rememberMe, setRememberMe] = useState(false)
 
     const toggleInvalidLogIn = () => {
         setInvalidLogIn(!isInvalidLogIn)
@@ -24,8 +26,20 @@ function LoginForm() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (email === userData.email && password === userData.password) {
-            navigate('/dashboard')
             setCookie('isLoggedIn', true)
+
+            // save login and password to cookies if Remember me is chosen
+            if(rememberMe) {
+                setCookie('user', email)
+                setCookie('password', password)
+            }
+            // not saving user data to cookies
+            else {
+                setCookie('user', null)
+                setCookie('password', null)
+            }
+            navigate('/dashboard')
+
         }
         // not successful log in
         else {
@@ -33,6 +47,20 @@ function LoginForm() {
             setCookie('isLoggedIn', false)
         }
     }
+
+
+    // to fill form is there is saved data in cookies (email and password)
+    useEffect(() => {
+        if (cookies.user && cookies.password) {
+            setEmail(cookies.user)
+            setPassword(cookies.password)
+            setRememberMe(true)
+        }
+
+        setCookie('isLoggedIn', false)
+
+    }, [cookies])
+
     return (
         <>
             <div className="app-background">
@@ -43,16 +71,27 @@ function LoginForm() {
                         <span>Invalid email or password</span>
                     </div>
                     <label htmlFor="email">E-mail:</label>
-                    <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                           name="email" placeholder="name@example.com" required/>
+                    <input type="email"
+                           id="email"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                           name="email"
+                           placeholder="name@example.com" required/>
 
                     <label htmlFor="password">Password:</label>
-                    <input type="password" value={password}
+                    <input type="password"
+                           value={password}
                            onChange={(e) => setPassword(e.target.value)}
-                           id="password" name="password" required/>
+                           id="password"
+                           name="password" required/>
 
                     <div className="remember-me">
-                        <input type="checkbox" id="remember" name="remember"/>
+                        <input type="checkbox"
+                               checked={rememberMe}
+                               onChange={(e) => setRememberMe(e.target.checked)}
+                               id="remember"
+                               name="remember"
+                        />
                         <label htmlFor="remember">Remember me</label>
                     </div>
 
