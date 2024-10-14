@@ -1,3 +1,11 @@
+.location-data {
+    top: 70px;
+    position: absolute;
+    left: 5%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .sign-out-button {
     position: fixed;
     top: 1%;

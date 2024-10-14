@@ -3,54 +3,86 @@ import { useCookies } from "react-cookie"
 import { useState, useEffect } from "react"
 import WeatherBlock from "./WeatherBlock.jsx"
 import './Dashboard.css'
-import {getWeatherDescription, getWeatherUniCode} from "./weatherUtils.js"
-import weatherBlock from "./WeatherBlock.jsx";
+import { getWeatherDescription, getWeatherUniCode } from "./weatherUtils.js"
 
 function Dashboard() {
-    const [cookies, setCookies] = useCookies(['isLoggedIn'])
-    const navigate = useNavigate()
+    const [cookies, setCookies] = useCookies(['isLoggedIn']);
+    const navigate = useNavigate();
+    const [location, setLocation] = useState(null);
+    const [weatherData, setWeatherData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
+    // get geolocation
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error)
+        } else {
+            setDefaultLocation()
+        }
+    }, [])
+
+    function success(position) {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        setLocation({ latitude, longitude })
+    }
+
+    function error() {
+        window.alert('Geolocation not available. Showing weather for Kyiv')
+        setDefaultLocation()
+    }
+
+    function setDefaultLocation() {
+        // set default coordinates for Kyiv
+        const latitude = 50.4504
+        const longitude = 30.5245
+        setLocation({ latitude, longitude })
+    }
+
+    // fetch weather data when location is updated
+    useEffect(() => {
+        if (location) {
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=weather_code,cloud_cover&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setWeatherData(data.daily)
+                    setIsLoading(false)
+                })
+                .catch((error) => {
+                    console.error('Error fetching weather data:', error)
+                    setIsLoading(false)
+                })
+        }
+    }, [location])
+
+    // redirect to login page if not logged in
     useEffect(() => {
         if (!cookies.isLoggedIn) {
             navigate('/')
         }
-    }, [cookies, navigate]);
-
-    // fetch data
-    const [weatherData, setWeatherData] = useState(null)
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        fetch('https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.52&current=weather_code,cloud_cover&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max')
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                console.log(data.daily);
-                setWeatherData(data.daily);
-                setIsLoading(false)
-            });
-    }, []);
+    }, [cookies, navigate])
 
     // handle log out, redirect user to login page
     const handleLogOut = () => {
         setCookies('isLoggedIn', false)
-        //setCookies('user', null)
         navigate('/')
-    }
-
+    };
 
     // show the loader while the data is being fetched
-    if(isLoading) {
-        return <div className="loader"></div>
+    if (isLoading) {
+        return <div className="loader"></div>;
     }
 
     return (
         <>
             <div className="top-section">
                 <span className="main-image">🌈</span>
-                <button className="sign-out-button" onClick={handleLogOut}>Log out</button>
+                <button className="sign-out-button" onClick={handleLogOut}>
+                    Log out
+                </button>
             </div>
+
+            <div className="location-data">{location.latitude}, {location.longitude}</div>
 
             <div className="weather-container">
                 {weatherData && weatherData.time.slice(0, 5).map((day, index) => (
@@ -68,7 +100,7 @@ function Dashboard() {
                 ))}
             </div>
         </>
-    )
+    );
 }
 
 export default Dashboard
