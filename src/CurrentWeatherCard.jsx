@@ -3,7 +3,7 @@ import './CurrentWeatherCard.css'
 function CurrentWeatherCard(props) {
     return (
         <>
-            <p className="date">Today</p>
+            <p className="date">Now</p>
             <p className="date-small">{ props.date }</p>
             <span className="weather-icon">{props.weatherImage}</span>
             <p className="description">{props.weatherDescription}</p>

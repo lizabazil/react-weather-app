@@ -10,6 +10,7 @@ function Dashboard() {
     const [cookies, setCookies] = useCookies(['isLoggedIn'])
     const navigate = useNavigate()
     const [location, setLocation] = useState(null)
+    const [city, setCity] = useState("")
     const [weatherData, setWeatherData] = useState(null)
     const [currentWeatherData, setCurrentWeatherData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -26,6 +27,7 @@ function Dashboard() {
     function success(position) {
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
+        setCity('Your location')
         setLocation({ latitude, longitude })
     }
 
@@ -38,6 +40,7 @@ function Dashboard() {
         // set default coordinates for Kyiv
         const latitude = 50.4504
         const longitude = 30.5245
+        setCity('Kyiv')
         setLocation({ latitude, longitude })
     }
 
@@ -80,6 +83,7 @@ function Dashboard() {
         <>
             <div className="top-section">
                 <span className="main-image">🌈</span>
+                <span>{ city }</span>
                 <button className="sign-out-button" onClick={handleLogOut}>
                     Log out
                 </button>
