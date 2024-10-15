@@ -1,3 +1,24 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
+    background-color: #f4f4f4;
+}
+
+.current-weather-card {
+    width: 40%;
+    background-color: #e0f7fa;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
 .location-data {
     top: 70px;
     position: absolute;
@@ -19,9 +40,6 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
-    position: absolute;
-    top: 100px;
-    left: 0;
     width: 100vw;
     background-color: #f4f4f4;
 }

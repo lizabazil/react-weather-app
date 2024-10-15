@@ -2,15 +2,17 @@ import { useNavigate } from "react-router-dom"
 import { useCookies } from "react-cookie"
 import { useState, useEffect } from "react"
 import WeatherBlock from "./WeatherBlock.jsx"
+import CurrentWeatherCard from "./CurrentWeatherCard.jsx"
 import './Dashboard.css'
 import { getWeatherDescription, getWeatherUniCode } from "./weatherUtils.js"
 
 function Dashboard() {
-    const [cookies, setCookies] = useCookies(['isLoggedIn']);
-    const navigate = useNavigate();
-    const [location, setLocation] = useState(null);
-    const [weatherData, setWeatherData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [cookies, setCookies] = useCookies(['isLoggedIn'])
+    const navigate = useNavigate()
+    const [location, setLocation] = useState(null)
+    const [weatherData, setWeatherData] = useState(null)
+    const [currentWeatherData, setCurrentWeatherData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     // get geolocation
     useEffect(() => {
@@ -42,10 +44,11 @@ function Dashboard() {
     // fetch weather data when location is updated
     useEffect(() => {
         if (location) {
-            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=weather_code,cloud_cover&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max`)
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,is_day,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max`)
                 .then((res) => res.json())
                 .then((data) => {
                     setWeatherData(data.daily)
+                    setCurrentWeatherData(data.current)
                     setIsLoading(false)
                 })
                 .catch((error) => {
@@ -82,8 +85,17 @@ function Dashboard() {
                 </button>
             </div>
 
-            <div className="location-data">{location.latitude}, {location.longitude}</div>
-
+            <div className="main-container">
+            <div className="current-weather-card">
+                <CurrentWeatherCard
+                    date={currentWeatherData.time.slice(0, 10)}
+                    weatherImage={getWeatherUniCode(currentWeatherData.weather_code)}
+                    weatherDescription={getWeatherDescription(currentWeatherData.weather_code)}
+                    currentTemperature={currentWeatherData.temperature_2m}
+                    humidity={currentWeatherData.relative_humidity_2m}
+                    windSpeed={currentWeatherData.wind_speed_10m}
+                />
+            </div>
             <div className="weather-container">
                 {weatherData && weatherData.time.slice(0, 5).map((day, index) => (
                     <WeatherBlock
@@ -98,6 +110,7 @@ function Dashboard() {
                         rainSum={weatherData.rain_sum[index]}
                     />
                 ))}
+            </div>
             </div>
         </>
     );
