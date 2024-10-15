@@ -83,7 +83,7 @@ function Dashboard() {
         <>
             <div className="top-section">
                 <span className="main-image">🌈</span>
-                <span>{ city }</span>
+                <span>{ city }, { location.latitude }, { location.longitude }</span>
                 <button className="sign-out-button" onClick={handleLogOut}>
                     Log out
                 </button>
