@@ -17,7 +17,7 @@ function WeatherBlock(props) {
                 <p className="bold">Precipitation probability:</p>
                 <p className="temperature">{props.precipitationProbability}%</p>
                 <p className="bold">Precipitation amount:</p>
-                <p className="temperature">{props.rainSum} mm</p>
+                <p className="temperature">{props.precipitationSum} mm</p>
 
 
             </div>

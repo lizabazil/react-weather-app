@@ -47,7 +47,7 @@ function Dashboard() {
     // fetch weather data when location is updated
     useEffect(() => {
         if (location) {
-            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,is_day,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max`)
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,is_day,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max`)
                 .then((res) => res.json())
                 .then((data) => {
                     setWeatherData(data.daily)
@@ -111,7 +111,7 @@ function Dashboard() {
                         minTemp={weatherData.temperature_2m_min[index]}
                         precipitationProbability={weatherData.precipitation_probability_max[index]}
                         maxWindSpeed={weatherData.wind_speed_10m_max[index]}
-                        rainSum={weatherData.rain_sum[index]}
+                        precipitationSum={weatherData.precipitation_sum[index]}
                     />
                 ))}
             </div>
