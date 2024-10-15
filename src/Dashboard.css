@@ -1,21 +1,54 @@
-.weather-container {
+.main-container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
     background-color: #f4f4f4;
-    border-radius: 10px;
+}
+
+.current-weather-card {
+    width: 40%;
+    background-color: #daeff2;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.location-data {
+    top: 70px;
+    position: absolute;
+    left: 5%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.sign-out-button {
+    position: absolute;
+    top: 10%;
+    right: 2%;
+    background: none;
+    font-size: 20px;
+}
+
+.weather-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    position: fixed;
-    top: 100px;
-    left: 0;
+    padding: 20px;
     width: 100vw;
+    background-color: #f4f4f4;
 }
 
 .loader {
     border: 16px solid #f3f3f3;
-    border-top: 16px solid blue;
-    border-right: 16px solid green;
-    border-bottom: 16px solid red;
+    border-top: 16px solid #a7a7dd;
+    border-right: 16px solid #8ed18e;
+    border-bottom: 16px solid #dca8a8;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -25,5 +58,52 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.top-section {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background: #e6e1ec;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.top-section img {
+    height: 70px;
+    width: 70px;
+    top: 0;
+    position: fixed;
+    left: 1%;
+}
+
+.top-section span {
+    left: 10%;
+    position: absolute;
+    top: 30%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.top-section .main-image {
+    font-size: 45px;
+    position: fixed;
+    top: 0;
+    left: 3%;
+}
+
+@media (max-width: 768px) {
+    .weather-container {
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-container {
+        width: 100%;
+        overflow-y: auto;
+
+    }
 }
 

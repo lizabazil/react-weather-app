@@ -1,0 +1,44 @@
+.current-weather-card h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.current-weather-card .weather-icon {
+    font-size: 4em;
+    margin-bottom: 10px;
+}
+
+.current-weather-card .description {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #4b4949;
+    text-align: left;
+}
+
+.current-weather-card .temperature {
+    font-weight: bold;
+    color: #b97464;
+}
+
+.current-weather-card .details {
+    color: #616161;
+    font-weight: bold;
+}
+
+.current-weather-card .one-info {
+    margin-bottom: 4px;
+}
+
+.current-weather-card .date {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f5380;
+    margin: 0 0;
+}
+
+.current-weather-card .date-small {
+    font-size: 17px;
+    font-weight: bold;
+    color: #1f5380;
+    margin: 0 0;
+}
