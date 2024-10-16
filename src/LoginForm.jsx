@@ -27,17 +27,6 @@ function LoginForm() {
         e.preventDefault()
         if (email === userData.email && password === userData.password) {
             setCookie('isLoggedIn', true)
-
-            // save login and password to cookies if Remember me is chosen
-            if(rememberMe) {
-                setCookie('user', email)
-                setCookie('password', password)
-            }
-            // not saving user data to cookies
-            else {
-                setCookie('user', null)
-                setCookie('password', null)
-            }
             navigate('/dashboard')
 
         }
@@ -45,6 +34,17 @@ function LoginForm() {
         else {
             toggleInvalidLogIn()
             setCookie('isLoggedIn', false)
+        }
+
+        // save login and password to cookies if Remember me is chosen
+        if(rememberMe) {
+            setCookie('user', email)
+            setCookie('password', password)
+        }
+        // not saving user data to cookies
+        else {
+            setCookie('user', null)
+            setCookie('password', null)
         }
     }
 
